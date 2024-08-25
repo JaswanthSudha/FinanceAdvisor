@@ -13,10 +13,14 @@ const port = process.env.PORT;
 //middlewares
 app.use(
 	cors({
-		origin: process.env.CORS_ORIGIN,
+		origin: '*',
 		credentials: true,
 	}),
 );
+app.use((req, res, next) => {
+	// console.log(req);
+	next();
+});
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

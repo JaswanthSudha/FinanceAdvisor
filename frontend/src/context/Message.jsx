@@ -3,6 +3,12 @@ export const MessageContext = createContext();
 const reducerFn = (state, action) => {
 	switch (action.type) {
 		case 'ADD_MESSAGE':
+			console.log(state.messages);
+			if (state?.messages === undefined) {
+				return {
+					messages: [action.payload],
+				};
+			}
 			return {
 				messages: [...state.messages, action.payload],
 			};

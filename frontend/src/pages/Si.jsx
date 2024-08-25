@@ -67,6 +67,7 @@ export default function SignIn() {
 		}
 		//json.token
 		localStorage.setItem('user', JSON.stringify(json.user));
+		localStorage.setItem('token', JSON.stringify(json.token));
 		dispatch({ type: 'LOGIN', payload: json.user });
 	}
 

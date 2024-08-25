@@ -23,6 +23,7 @@ const Chatbot = () => {
 			setLoading(false);
 		}, [3000]);
 		console.log(location.pathname);
+		console.log(allMessages);
 	}, []);
 	useEffect(() => {
 		if (bottomRef.current) {
@@ -45,6 +46,7 @@ const Chatbot = () => {
 					},
 				);
 				const json = await response.json();
+
 				dispatch({ type: 'SET_MESSAGES', payload: json.messages });
 			} catch (error) {
 				console.log('Error in getting all user messages', error);
@@ -81,9 +83,9 @@ const Chatbot = () => {
 				isUser: true,
 			};
 			setQuery('');
-			// setMessages([...messages, newMessage]);
 			dispatch({ type: 'ADD_MESSAGE', payload: newMessage });
-
+			// setMessages([...messages, newMessage]);
+			console.log('message', allMessages);
 			await createUserMessage(newMessage);
 			const response = await fetch(
 				'http://localhost:8001/api/v1/gemini/getAdvice',
@@ -91,11 +93,15 @@ const Chatbot = () => {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
+						Authorization: `Bearer ${JSON.parse(
+							localStorage.getItem('token'),
+						)}`,
 					},
 					body: JSON.stringify({ query: newMessage.text }),
 				},
 			);
 			const json = await response.json();
+			console.log('json', json);
 			if (json.response) {
 				const obj = {
 					id: Date.now(),
@@ -105,6 +111,7 @@ const Chatbot = () => {
 				await createUserMessage(obj);
 				// setMessages([...messages, newMessage, obj]);
 				setResponse(true);
+
 				dispatch({ type: 'ADD_MESSAGE', payload: obj });
 			}
 		}
@@ -154,7 +161,7 @@ const Chatbot = () => {
 			<div
 				className='p-20 overflow-hidden  w-full'
 				style={{ maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}>
-				{allMessages.length == 0 ? (
+				{allMessages === undefined || allMessages?.length === 0 ? (
 					<div className='text-3xl font-serif '>No Recent Chats</div>
 				) : (
 					allMessages?.map((message) => (
@@ -187,7 +194,7 @@ const Chatbot = () => {
 						</div>
 					))
 				)}
-				{!response && allMessages.length > 0 && (
+				{!response && allMessages?.length > 0 && (
 					<div ref={bottomRef}>Your Bot Is Working On It....</div>
 				)}
 			</div>
