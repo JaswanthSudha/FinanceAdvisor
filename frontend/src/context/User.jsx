@@ -11,6 +11,11 @@ const reducerFn = (state, action) => {
 			return {
 				user: null,
 			};
+		case 'PROFILEIMAGE':
+			state.user.image = action.payload;
+			return {
+				user: state.user,
+			};
 	}
 };
 export const UserAuthContextProvider = ({ children }) => {

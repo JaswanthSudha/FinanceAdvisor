@@ -1,8 +1,7 @@
 const handleFileUpload = async (req, res) => {
 	try {
 		const file = req.file;
-		console.log('hello');
-		console.log(file);
+
 		if (!file) {
 			return res.status(400).json({ message: 'File Not Uploaded' });
 		}

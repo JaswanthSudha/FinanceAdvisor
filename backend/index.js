@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import userRouter from './routes/user.route.js';
 import fileRouter from './routes/file.route.js';
 import messageRouter from './routes/message.route.js';
+import profileImageRouter from './routes/profileImage.route.js';
 import cors from 'cors';
 import { connectDB } from './db/index.js';
 dotenv.config();
@@ -30,6 +31,7 @@ app.use('/api/v1/gemini', geminiRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/file', fileRouter);
 app.use('/api/v1/message', messageRouter);
+app.use('/api/v1/message', profileImageRouter);
 
 //database connection
 connectDB()
