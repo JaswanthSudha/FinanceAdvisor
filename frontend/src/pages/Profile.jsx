@@ -1,6 +1,7 @@
 import React from 'react';
 import useAuthContext from '../hooks/UseContext';
 import profileImage from '../images/frontend.jpeg';
+// import { url } from '../constants/url';
 
 const Profile = () => {
 	const { dispatch, user } = useAuthContext();

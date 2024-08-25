@@ -6,6 +6,7 @@ import useMessage from '../hooks/MessageContext';
 import History from '../components/History';
 import { MdDelete } from 'react-icons/md';
 import { useLocation } from 'react-router-dom';
+import { url } from '../constants/url';
 const Chatbot = () => {
 	const [query, setQuery] = useState('');
 	const [loading, setLoading] = useState(true);
@@ -33,18 +34,15 @@ const Chatbot = () => {
 	useEffect(() => {
 		const getAllUserMessage = async () => {
 			try {
-				const response = await fetch(
-					'http://localhost:8001/api/v1/message/messages',
-					{
-						method: 'GET',
-						headers: {
-							'Content-Type': 'application/json',
-							Authorization: `Bearer ${JSON.parse(
-								localStorage.getItem('token'),
-							)}`,
-						},
+				const response = await fetch(`${url}/api/v1/message/messages`, {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${JSON.parse(
+							localStorage.getItem('token'),
+						)}`,
 					},
-				);
+				});
 				const json = await response.json();
 
 				dispatch({ type: 'SET_MESSAGES', payload: json.messages });
@@ -65,7 +63,7 @@ const Chatbot = () => {
 		}
 		const formData = new FormData();
 		formData.append('file', e.target.files[0]);
-		const response = await fetch('http://localhost:8001/api/v1/file/upload', {
+		const response = await fetch(`${url}/api/v1/file/upload`, {
 			method: 'POST',
 			body: formData,
 		});
@@ -87,19 +85,14 @@ const Chatbot = () => {
 			// setMessages([...messages, newMessage]);
 			console.log('message', allMessages);
 			await createUserMessage(newMessage);
-			const response = await fetch(
-				'http://localhost:8001/api/v1/gemini/getAdvice',
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization: `Bearer ${JSON.parse(
-							localStorage.getItem('token'),
-						)}`,
-					},
-					body: JSON.stringify({ query: newMessage.text }),
+			const response = await fetch(`${url}/api/v1/gemini/getAdvice`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
 				},
-			);
+				body: JSON.stringify({ query: newMessage.text }),
+			});
 			const json = await response.json();
 			console.log('json', json);
 			if (json.response) {
@@ -120,19 +113,14 @@ const Chatbot = () => {
 	};
 	const createUserMessage = async (obj) => {
 		try {
-			const response = await fetch(
-				'http://localhost:8001/api/v1/message/message ',
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization: `Bearer ${JSON.parse(
-							localStorage.getItem('token'),
-						)}`,
-					},
-					body: JSON.stringify(obj),
+			const response = await fetch(`${url}/api/v1/message/message `, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
 				},
-			);
+				body: JSON.stringify(obj),
+			});
 			const json = await response.json();
 			console.log(json);
 		} catch (error) {

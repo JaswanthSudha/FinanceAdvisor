@@ -15,6 +15,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import useUserContext from '../hooks/UseContext';
+import { url } from '../constants/url';
 
 function Copyright(props) {
 	return (
@@ -49,7 +50,7 @@ export default function SignIn() {
 	const { dispatch } = useUserContext();
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const response = await fetch('http://localhost:8001/api/v1/user/login', {
+		const response = await fetch(`${url}/api/v1/user/login`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

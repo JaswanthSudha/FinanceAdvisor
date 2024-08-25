@@ -15,6 +15,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import useUserContext from '../hooks/UseContext';
+import { url } from '../constants/url';
 
 function Copyright(props) {
 	return (
@@ -54,7 +55,7 @@ export default function SignIn() {
 			alert('Please fill all the fields');
 		}
 		console.log(obj);
-		const response = await fetch('http://localhost:8001/api/v1/user/register', {
+		const response = await fetch(`${url}/api/v1/user/register`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

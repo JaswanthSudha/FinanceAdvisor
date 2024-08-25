@@ -1,5 +1,7 @@
 import { useReducer, createContext, useEffect } from 'react';
+import { url } from '../constants/url';
 export const MessageContext = createContext();
+
 const reducerFn = (state, action) => {
 	switch (action.type) {
 		case 'ADD_MESSAGE':
@@ -25,18 +27,15 @@ export const MessageContextProvider = ({ children }) => {
 	useEffect(() => {
 		const getAllUserMessage = async () => {
 			try {
-				const response = await fetch(
-					'http://localhost:8001/api/v1/message/messages',
-					{
-						method: 'GET',
-						headers: {
-							'Content-Type': 'application/json',
-							Authorization: `Bearer ${JSON.parse(
-								localStorage.getItem('token'),
-							)}`,
-						},
+				const response = await fetch(`${url}/api/v1/message/messages`, {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${JSON.parse(
+							localStorage.getItem('token'),
+						)}`,
 					},
-				);
+				});
 				const json = await response.json();
 				dispatch({ type: 'SET_MESSAGES', payload: json.messages });
 			} catch (error) {

@@ -4,6 +4,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link } from 'react-router-dom';
 import { MdDelete } from 'react-icons/md';
 import { useLocation } from 'react-router-dom';
+import { url } from '../constants/url';
 const Navbar = () => {
 	const { pathname } = useLocation();
 	const { dispatch, user } = useAuthContext();
@@ -17,16 +18,13 @@ const Navbar = () => {
 		}
 	};
 	const handeleDeleteChat = async () => {
-		const response = await fetch(
-			'http://localhost:8001/api/v1/message/messages',
-			{
-				method: 'DELETE',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
-				},
+		const response = await fetch(`${url}/api/v1/message/messages`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
 			},
-		);
+		});
 		const json = await response.json();
 		console.log(json);
 	};
